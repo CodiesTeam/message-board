@@ -1,0 +1,26 @@
+goserver:
+  image: golang:latest
+  working_dir: $GOPATH/src/db-test
+  command: go run /go/src/db-test/main.go
+  volumes:
+    - $GOPATH/src/db-test:/go/src/db-test
+  ports:
+    - 8091:8091
+  links:
+    - mysql
+    - mongodb
+mysql:
+  image: mysql:latest
+  volumes:
+    - $GOPATH/src/db-test/db/mysql:/var/lib/mysql
+  ports:
+    - 3306:3306
+  environment: 
+    MYSQL_ROOT_PASSWORD: root
+mongodb:
+  image: mongo:latest
+  # volumes: 
+  #   - $GOPATH/src/db-test/db/mongo:/var/lib/mongo
+  ports: 
+    - 27017:27017
+  command: mongod --smallfiles --quiet --logpath=/dev/null
