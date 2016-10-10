@@ -6,8 +6,8 @@
 # Folders
 _obj
 _test
-vendor/*
-db/*
+vendor
+db
 node_modules
 
 # Architecture specific extensions/prefixes
