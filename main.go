@@ -5,10 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"time"
-
 	_ "github.com/go-sql-driver/mysql"
-	"gopkg.in/mgo.v2"
 )
 
 // var CREATE_TABLE = `CREATE TABLE `userinfo` (
@@ -20,7 +17,7 @@ import (
 // )`
 
 func testMySQL() {
-	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%s)/", "root", "root", os.Getenv("MYSQL_PORT_3306_TCP_ADDR"), os.Getenv("MYSQL_PORT_3306_TCP_PORT"))
+	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", "root", "root", os.Getenv("MYSQL_PORT_3306_TCP_ADDR"), os.Getenv("MYSQL_PORT_3306_TCP_PORT"), os.Getenv("USERS_DB_NAME"))
 	fmt.Println(dbURI)
 	db, err := sql.Open("mysql", dbURI)
 	if err != nil {
@@ -66,21 +63,20 @@ func testMySQL() {
 	// }
 }
 
-func testMongo() {
+// func testMongo() {
 
-	// dbURI := fmt.Sprintf("%s:%s", os.Getenv("MONGO_PORT_27017_TCP_ADDR"), os.Getenv("MONGO_PORT_27017_TCP_PORT"))
-	session, err := mgo.DialWithTimeout(os.Getenv("DATABASE_PORT_27017_TCP_ADDR"), 5*time.Second)
-	if err != nil {
-		fmt.Printf("MONGO ADDRESS: %s", os.Getenv("DATABASE_PORT_27017_TCP_ADDR"))
-		fmt.Println("panic on mongo")
-		panic(err)
-	}
-	defer session.Close()
-}
+// 	// dbURI := fmt.Sprintf("%s:%s", os.Getenv("MONGO_PORT_27017_TCP_ADDR"), os.Getenv("MONGO_PORT_27017_TCP_PORT"))
+// 	session, err := mgo.DialWithTimeout(os.Getenv("DATABASE_PORT_27017_TCP_ADDR"), 5*time.Second)
+// 	if err != nil {
+// 		fmt.Printf("MONGO ADDRESS: %s", os.Getenv("DATABASE_PORT_27017_TCP_ADDR"))
+// 		fmt.Println("panic on mongo")
+// 		panic(err)
+// 	}
+// 	defer session.Close()
+// }
 
 func main() {
 	testMySQL()
-	testMongo()
 	for true {
 
 	}

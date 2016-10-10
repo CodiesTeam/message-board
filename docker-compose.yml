@@ -1,9 +1,11 @@
 goserver:
   image: golang:latest
-  working_dir: $GOPATH/src/db-test
-  command: go run /go/src/db-test/main.go
+  working_dir: $GOPATH/src/message-board
+  command: go run /go/src/message-board/main.go
+  environment: 
+    USERS_DB_NAME: users_test
   volumes:
-    - $GOPATH/src/db-test:/go/src/db-test
+    - $GOPATH/src/message-board:/go/src/message-board
   ports:
     - 8091:8091
   links:
@@ -12,7 +14,7 @@ goserver:
 mysql:
   image: mysql:latest
   volumes:
-    - $GOPATH/src/db-test/db/mysql:/var/lib/mysql
+    - $GOPATH/src/message-board/db/mysql:/var/lib/mysql
   ports:
     - 3306:3306
   environment: 
@@ -20,7 +22,7 @@ mysql:
 mongodb:
   image: mongo:latest
   # volumes: 
-  #   - $GOPATH/src/db-test/db/mongo:/var/lib/mongo
+  #   - $GOPATH/src/message-board/db/mongo:/var/lib/mongo
   ports: 
     - 27017:27017
   command: mongod --smallfiles --quiet --logpath=/dev/null
