@@ -1,12 +1,16 @@
 {
-	"ImportPath": "db-test",
+	"ImportPath": "message-board",
 	"GoVersion": "go1.6",
-	"GodepVersion": "v74",
+	"GodepVersion": "v72",
 	"Deps": [
 		{
 			"ImportPath": "github.com/go-sql-driver/mysql",
 			"Comment": "v1.2-198-g0b58b37",
 			"Rev": "0b58b37b664c21f3010e836f1b931e1d0b0b0685"
+		},
+		{
+			"ImportPath": "github.com/golang/glog",
+			"Rev": "23def4e6c14b4da8ac2ed8007337bc5eb5007998"
 		},
 		{
 			"ImportPath": "gopkg.in/mgo.v2",

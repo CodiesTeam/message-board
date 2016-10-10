@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 6861341932a9686066b859dd48c8709f6fc4f05e yongkang <zhangyongkang@lanxiniu.com> 1475996865 +0800	clone: from https://github.com/CodiesTeam/message-board.git
+6861341932a9686066b859dd48c8709f6fc4f05e 338c8787c0be96acde7a5131685056b5119ec85a yongkang <zhangyongkang@lanxiniu.com> 1476108917 +0800	commit: add vendor
+338c8787c0be96acde7a5131685056b5119ec85a 0a1c27abd0a006dc95199fb87ec1350d759d17fe yongkang <zhangyongkang@lanxiniu.com> 1476114111 +0800	commit: init settings
+0a1c27abd0a006dc95199fb87ec1350d759d17fe 6861341932a9686066b859dd48c8709f6fc4f05e yongkang <zhangyongkang@lanxiniu.com> 1476114155 +0800	reset: moving to 6861341
+6861341932a9686066b859dd48c8709f6fc4f05e 6861341932a9686066b859dd48c8709f6fc4f05e yongkang <zhangyongkang@lanxiniu.com> 1476114180 +0800	checkout: moving from master to settings
+6861341932a9686066b859dd48c8709f6fc4f05e b126715d837b3da2c10b574f425b0ebb0747e325 yongkang <zhangyongkang@lanxiniu.com> 1476114210 +0800	commit: make some settings
