@@ -1,28 +1,32 @@
 goserver:
-  image: golang:latest
-  working_dir: $GOPATH/src/message-board
-  command: go run /go/src/message-board/server/main.go
+  image: golang:1.7.1
+  working_dir: /go/src/message-board
+  command: go run ./server/main.go
   environment: 
     USERS_DB_NAME: users_test
+    MYSQL_LINK: message-board-mysql
+    MONGO_LINK: message-board-mongo
   volumes:
-    - $GOPATH/src/message-board:/go/src/message-board
+    - $HOME/go/src/message-board:/go/src/message-board
   ports:
     - 8091:8091
   links:
     - mysql
     - mongodb
 mysql:
-  image: mysql:latest
+  image: mysql:5.7
+  container_name: message-board-mysql
   volumes:
-    - $GOPATH/src/message-board/server/db/mysql:/var/lib/mysql
+    - $HOME/go/src/message-board/server/db/mysql:/data/db/mysql
   ports:
     - 3306:3306
   environment: 
     MYSQL_ROOT_PASSWORD: root
 mongodb:
-  image: mongo:latest
-  # volumes: 
-  #   - $GOPATH/src/message-board/db/mongo:/var/lib/mongo
+  image: mongo:3.2
+  container_name: message-board-mongo
+  volumes: 
+    - $HOME/go/src/message-board/db/mongo:/data/db/mongo
   ports: 
     - 27017:27017
   command: mongod --smallfiles --quiet --logpath=/dev/null
