@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"io/ioutil"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -34,19 +34,20 @@ func testMongo() {
 }
 
 func testServeApp() {
-	http.HandleFunc("/", webHandler)
+	http.HandleFunc("/index", webHandler)
+	http.Handle("/", http.FileServer(http.Dir("./client/")))
 	log.Fatal(http.ListenAndServe(":8091", nil))
 }
 
 func webHandler(w http.ResponseWriter, r *http.Request) {
-	f, error := ioutil.ReadFile("/go/src/message-board/client/index.html")
+	t, error := template.ParseFiles("./client/index.html")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if error != nil {
 		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprintf(w, "Error: %s", error)
 		return
 	}
-	w.Write(f)
+	t.Execute(w, nil)
 }
 
 func main() {
