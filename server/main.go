@@ -1,27 +1,20 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"html/template"
 	"log"
+	"message-board/server/user"
 	"net/http"
 	"os"
 	"time"
 
 	mgo "gopkg.in/mgo.v2"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
 func testMySQL() {
-	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", "root", "root", os.Getenv("MYSQL_LINK"), os.Getenv("MYSQL_PORT_3306_TCP_PORT"), os.Getenv("USERS_DB_NAME"))
-	fmt.Println(dbURI)
-	db, err := sql.Open("mysql", dbURI)
-	if err != nil {
-		panic("Open error")
-	}
-	defer db.Close()
+	newUser := user.CreateUser("joint-song", "xuguang1992@gmail.com", "rootpwd")
+	fmt.Printf("New user name: %s\n", newUser.Name)
 }
 
 func testMongo() {

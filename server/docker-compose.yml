@@ -5,6 +5,7 @@ goserver:
   environment: 
     USERS_DB_NAME: users_test
     MYSQL_LINK: message-board-mysql
+    MYSQL_DEFAULT_PORT: 3306
     MONGO_LINK: message-board-mongo
   volumes:
     - $HOME/go/src/message-board:/go/src/message-board
