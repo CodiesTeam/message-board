@@ -30,6 +30,16 @@ type User struct {
 	Gender Gender
 }
 
+// user table scheme.
+// CREATE TABLE `user` (
+//   `id` int(5) NOT NULL AUTO_INCREMENT,
+//   `name` char(20) NOT NULL,
+//   `gender` tinyint(1) NOT NULL DEFAULT '0',
+//   `email` char(40) NOT NULL,
+//   `password` char(50) NOT NULL,
+//   PRIMARY KEY (`id`)
+// )
+
 // CreateUser will create a new user with name, email and password, return new user created right now.
 func CreateUser(name, email, pwd string, gender Gender) *User {
 	if mysql.MySQLDB == nil {
