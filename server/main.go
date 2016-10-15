@@ -1,40 +1,31 @@
 package main
 
 import (
-	"database/sql"
+	"flag"
 	"fmt"
-	"io/ioutil"
+	"html/template"
 	"log"
+	"message-board/server/mysql"
 	"net/http"
 	"os"
 	"time"
 
-	mgo "gopkg.in/mgo.v2"
-
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang/glog"
+
+	mgo "gopkg.in/mgo.v2"
 )
 
-var (
-	logln = glog.Infoln
-	logf  = glog.Infof
-)
+var logln = glog.Infoln
 
 func testMySQL() {
-	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", "root", "root", os.Getenv("MYSQL_LINK"), os.Getenv("MYSQL_PORT"), os.Getenv("USERS_DB_NAME"))
-	logln("dbUUI: ", dbURI)
-	fmt.Println(dbURI)
-	db, err := sql.Open("mysql", dbURI)
-	if err != nil {
-		panic("Open error")
-	}
-	defer db.Close()
+	_ = mysql.NewDB()
 }
 
 func testMongo() {
 	mongoURI := fmt.Sprintf("%s:%s", os.Getenv("MONGO_LINK"), os.Getenv("MONGO_PORT"))
 	logln("mongoURI: ", mongoURI)
-	session, err := mgo.DialWithTimeout(mongoURI, 5*time.Second)
+	session, err := mgo.DialWithTimeout(mongoURI, 2*time.Second)
+	logln("err: ", err)
 	if err != nil {
 		fmt.Println("panic on mongo")
 		panic(err)
@@ -43,22 +34,26 @@ func testMongo() {
 }
 
 func testServeApp() {
-	http.HandleFunc("/", webHandler)
+	http.HandleFunc("/index", webHandler)
+	http.Handle("/", http.FileServer(http.Dir("./client/")))
 	log.Fatal(http.ListenAndServe(":8091", nil))
 }
 
 func webHandler(w http.ResponseWriter, r *http.Request) {
-	f, error := ioutil.ReadFile("./../client/index.html")
+	t, error := template.ParseFiles("../client/index.html")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if error != nil {
 		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprintf(w, "Error: %s", error)
 		return
 	}
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write(f)
+	t.Execute(w, nil)
 }
 
 func main() {
+	flag.Lookup("logtostderr").Value.Set("true")
+	flag.Parse()
+	logln("begin...")
 	testMySQL()
 	testMongo()
 	testServeApp()
