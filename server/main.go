@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"log"
-	"message-board/server/mysql"
+	"message-board/server/user"
 	"net/http"
 	"os"
 	"time"
@@ -18,7 +18,8 @@ import (
 var logln = glog.Infoln
 
 func testMySQL() {
-	_ = mysql.NewDB()
+	newUser := user.CreateUser("joint-song", "xuguang1992@gmail.com", "rootpwd", user.Man)
+	fmt.Printf("New use: %+v\n", newUser)
 }
 
 func testMongo() {
