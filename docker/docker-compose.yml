@@ -19,7 +19,7 @@ mysql:
   image: mysql:5.7
   container_name: message-board-mysql
   volumes:
-    - $HOME/go/src/message-board/docker/db/mysql:/data/db/mysql
+    - $HOME/go/src/message-board/docker/db/mysql:/var/lib/mysql
   ports:
     - 3307:3306
   environment:
