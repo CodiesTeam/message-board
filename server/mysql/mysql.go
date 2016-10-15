@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	// for mysql dirver
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var (
@@ -17,10 +19,12 @@ var (
 var MySQLDB *sql.DB
 
 func init() {
-	uri := fmt.Sprintf("%s:%s@tcp(%s:%s)", user, password, link, port)
-	MySQLDB, error := sql.Open("mysql", uri)
-	if error != nil {
+	uri := fmt.Sprintf("%s:%s@tcp(%s:%s)/", user, password, link, port)
+	var e error
+	MySQLDB, e = sql.Open("mysql", uri)
+	if e != nil {
 		MySQLDB.Close()
-		panic(fmt.Sprintf("mysql init error: %s\n", error))
+		panic(fmt.Sprintf("mysql init error: %s\n", e))
 	}
+
 }

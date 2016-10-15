@@ -27,7 +27,7 @@ mongodb:
   image: mongo:3.2
   container_name: message-board-mongo
   volumes: 
-    - $HOME/go/src/message-board/db/mongo:/data/db/mongo
+    - $HOME/go/src/message-board/server/db/mongo:/data/db/mongo
   ports: 
     - 27017:27017
   command: mongod --smallfiles --quiet --logpath=/dev/null

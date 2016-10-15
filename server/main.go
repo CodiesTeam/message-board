@@ -13,8 +13,8 @@ import (
 )
 
 func testMySQL() {
-	newUser := user.CreateUser("joint-song", "xuguang1992@gmail.com", "rootpwd")
-	fmt.Printf("New user name: %s\n", newUser.Name)
+	newUser := user.CreateUser("joint-song", "xuguang1992@gmail.com", "rootpwd", user.Man)
+	fmt.Printf("New use: %+v\n", newUser)
 }
 
 func testMongo() {

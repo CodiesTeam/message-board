@@ -7,28 +7,56 @@ import (
 )
 
 var (
-	db = os.Getenv("USERS_DB_NAME")
+	db    = os.Getenv("USERS_DB_NAME")
+	table = "user"
+)
+
+// Gender for user.
+type Gender uint
+
+const (
+	// Man Gender for man.
+	Man Gender = iota
+	// Woman Gender for woman.
+	Woman
 )
 
 // User Basic user.
 type User struct {
-	ID    string
-	Name  string
-	Email string
-	Pwd   string
+	ID     int64
+	Name   string
+	Email  string
+	Pwd    string
+	Gender Gender
 }
 
 // CreateUser will create a new user with name, email and password, return new user created right now.
-func CreateUser(name, email, pwd string) *User {
-	_, error := mysql.MySQLDB.Exec(fmt.Sprintf("USE %s", db))
-	if error != nil {
-		panic(fmt.Sprintf("CreateUser error: %s", error))
+func CreateUser(name, email, pwd string, gender Gender) *User {
+	if mysql.MySQLDB == nil {
+		fmt.Println("mysql is nil")
 	}
-	// TODO: return a temporary User
+	_, e := mysql.MySQLDB.Exec(fmt.Sprintf("USE %s", db))
+	if e != nil {
+		panic(fmt.Sprintf("CreateUser error: %s", e))
+	}
+	stmt, e := mysql.MySQLDB.Prepare(fmt.Sprintf("INSERT %s SET name=?,email=?,password=?,gender=?", table))
+	if e != nil {
+		panic(fmt.Sprintf("Prepare INSERT USER error: %s", e))
+	}
+	defer stmt.Close()
+	res, e := stmt.Exec(name, email, pwd, gender)
+	if e != nil {
+		panic(fmt.Sprintf("INSERT USER error: %s", e))
+	}
+	id, e := res.LastInsertId()
+	if e != nil {
+		panic(fmt.Sprintf("INSERT USER and get last insert id error: %s", e))
+	}
 	return &User{
-		ID:    "lsdknx0",
-		Name:  name,
-		Email: email,
-		Pwd:   pwd,
+		ID:     id,
+		Name:   name,
+		Email:  email,
+		Pwd:    pwd,
+		Gender: gender,
 	}
 }
