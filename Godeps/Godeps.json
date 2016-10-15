@@ -1,0 +1,52 @@
+{
+	"ImportPath": "message-board",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v72",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/fsnotify/fsnotify",
+			"Comment": "v1.4.2",
+			"Rev": "629574ca2a5df945712d3079857300b5e4da0236"
+		},
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.2-198-g0b58b37",
+			"Rev": "0b58b37b664c21f3010e836f1b931e1d0b0b0685"
+		},
+		{
+			"ImportPath": "github.com/golang/glog",
+			"Rev": "23def4e6c14b4da8ac2ed8007337bc5eb5007998"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "9bb9f0998d48b31547d975974935ae9b48c7a03c"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2",
+			"Comment": "r2016.02.04-1-gb6e2fa3",
+			"Rev": "b6e2fa371e64216a45e61072a96d4e3859f169da"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/bson",
+			"Comment": "r2016.02.04-1-gb6e2fa3",
+			"Rev": "b6e2fa371e64216a45e61072a96d4e3859f169da"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/internal/sasl",
+			"Comment": "r2016.02.04-1-gb6e2fa3",
+			"Rev": "b6e2fa371e64216a45e61072a96d4e3859f169da"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/internal/scram",
+			"Comment": "r2016.02.04-1-gb6e2fa3",
+			"Rev": "b6e2fa371e64216a45e61072a96d4e3859f169da"
+		},
+		{
+			"ImportPath": "livereload/colorlog",
+			"Rev": "c916fac92f5902f00990a24b6f52ca91bc5807a0"
+		}
+	]
+}
