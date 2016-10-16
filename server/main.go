@@ -36,7 +36,7 @@ func testMongo() {
 
 func testServeApp() {
 	http.HandleFunc("/index", webHandler)
-	http.Handle("/", http.FileServer(http.Dir("./client/")))
+	http.Handle("/", http.FileServer(http.Dir("../client/")))
 	log.Fatal(http.ListenAndServe(":8091", nil))
 }
 

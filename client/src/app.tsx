@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import Register from './login/register';
 
 export default class App extends React.Component<{}, {}> {
     render() {
         return (
             <div>
-                <h1>测试啊啊啊</h1>
+                <Register />
             </div>
         );
     }

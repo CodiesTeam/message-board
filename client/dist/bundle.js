@@ -52,13 +52,14 @@
 	};
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(2);
+	var register_1 = __webpack_require__(3);
 	var App = (function (_super) {
 	    __extends(App, _super);
 	    function App() {
 	        _super.apply(this, arguments);
 	    }
 	    App.prototype.render = function () {
-	        return (React.createElement("div", null, React.createElement("h1", null, "测试啊啊啊")));
+	        return (React.createElement("div", null, React.createElement(register_1.default, null)));
 	    };
 	    return App;
 	}(React.Component));
@@ -78,6 +79,31 @@
 /***/ function(module, exports) {
 
 	module.exports = ReactDOM;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var Register = (function (_super) {
+	    __extends(Register, _super);
+	    function Register() {
+	        _super.apply(this, arguments);
+	    }
+	    Register.prototype.render = function () {
+	        return (React.createElement("div", null, React.createElement("span", null, "注册"), React.createElement("form", {action: "register", method: "POST"}, React.createElement("input", {type: "text", name: "name"}), React.createElement("input", {type: "password", name: "pwd"}), React.createElement("button", {type: "submit", value: "提交"}))));
+	    };
+	    return Register;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Register;
+
 
 /***/ }
 /******/ ]);

@@ -3,6 +3,7 @@ module.exports = {
     output: {
         filename: "./dist/bundle.js",
     },
+    watch: true,
 
     // Enable sourcemaps for debugging webpack's output.
     devtool: "source-map",
