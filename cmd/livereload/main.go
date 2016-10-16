@@ -15,7 +15,6 @@ import (
 )
 
 const usage = `
-
  Usage:
 
   	-h     show help informations;
