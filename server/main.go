@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/golang/glog"
+	"github.com/urfave/negroni"
 
 	mgo "gopkg.in/mgo.v2"
 )
@@ -35,9 +36,16 @@ func testMongo() {
 }
 
 func testServeApp() {
-	http.HandleFunc("/index", webHandler)
-	http.Handle("/", http.FileServer(http.Dir("../client/")))
-	log.Fatal(http.ListenAndServe(":8091", nil))
+	mux := http.NewServeMux()
+	mux.HandleFunc("/index", webHandler)
+	mux.Handle("/", http.FileServer(http.Dir("../client/")))
+
+	// middleare 这里可以先不用管它， 从line 41直接看line 47就行
+	middleware := negroni.Classic()
+	middleware.UseHandler(mux)
+
+	// log.Fatal(http.ListenAndServe(":8091", mux))
+	log.Fatal(http.ListenAndServe(":8091", middleware))
 }
 
 func webHandler(w http.ResponseWriter, r *http.Request) {
