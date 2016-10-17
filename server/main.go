@@ -4,14 +4,13 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
-	"log"
 	"message-board/server/user"
+	"message-board/server/mbmux"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/urfave/negroni"
 
 	mgo "gopkg.in/mgo.v2"
 )
@@ -35,19 +34,6 @@ func testMongo() {
 	defer session.Close()
 }
 
-func testServeApp() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/index", webHandler)
-	mux.Handle("/", http.FileServer(http.Dir("../client/")))
-
-	// middleare 这里可以先不用管它， 从line 41直接看line 47就行
-	middleware := negroni.Classic()
-	middleware.UseHandler(mux)
-
-	// log.Fatal(http.ListenAndServe(":8091", mux))
-	log.Fatal(http.ListenAndServe(":8091", middleware))
-}
-
 func webHandler(w http.ResponseWriter, r *http.Request) {
 	t, error := template.ParseFiles("../client/index.html")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -65,5 +51,5 @@ func main() {
 	logln("begin...")
 	testMySQL()
 	testMongo()
-	testServeApp()
+	mbmux.ServeAll()
 }
