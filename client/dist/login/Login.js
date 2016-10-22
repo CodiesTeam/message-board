@@ -11,6 +11,7 @@ var Login = (function (_super) {
         _super.apply(this, arguments);
     }
     Login.prototype.render = function () {
+        return (React.createElement("p", null, "注册"));
     };
     return Login;
 }(React.Component));

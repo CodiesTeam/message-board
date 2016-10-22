@@ -2,7 +2,6 @@ package mbmux
 
 import (
 	"log"
-	"message-board/server/user"
 	"net/http"
 
 	"github.com/urfave/negroni"
@@ -22,7 +21,6 @@ func init() {
 
 // ServeAll startup all serve handlers.
 func ServeAll() {
-	user.Serve()
 	SharedMux.Handle("/", http.FileServer(http.Dir("../client/")))
 	log.Fatal(http.ListenAndServe(":8091", middleware))
 }

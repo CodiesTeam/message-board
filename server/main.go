@@ -4,8 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
-	"message-board/server/user"
 	"message-board/server/mbmux"
+	"message-board/server/user"
 	"net/http"
 	"os"
 	"time"
@@ -16,11 +16,6 @@ import (
 )
 
 var logln = glog.Infoln
-
-func testMySQL() {
-	newUser := user.CreateUser("joint-song", "xuguang1992@gmail.com", "rootpwd", user.Man)
-	fmt.Printf("New use: %+v\n", newUser)
-}
 
 func testMongo() {
 	mongoURI := fmt.Sprintf("%s:%s", os.Getenv("MONGO_LINK"), os.Getenv("MONGO_PORT"))
@@ -45,11 +40,16 @@ func webHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, nil)
 }
 
+func startupServe() {
+	user.Serve()
+	mbmux.SharedMux.HandleFunc("/index", webHandler)
+	mbmux.ServeAll()
+}
+
 func main() {
 	flag.Lookup("logtostderr").Value.Set("true")
 	flag.Parse()
 	logln("begin...")
-	testMySQL()
 	testMongo()
-	mbmux.ServeAll()
+	startupServe()
 }

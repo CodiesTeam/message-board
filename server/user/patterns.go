@@ -1,7 +1,7 @@
 package user
 
 func checkUserName(s string) bool {
-	if s == nil || len(s) == 0 {
+	if s == "" {
 		return false
 	}
 	// TODO: pattern for user name
@@ -9,7 +9,7 @@ func checkUserName(s string) bool {
 }
 
 func checkEmail(s string) bool {
-	if s == nil || len(s) == 0 {
+	if s == "" {
 		return false
 	}
 	// TODO: pattern for email

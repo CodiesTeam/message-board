@@ -20,7 +20,7 @@ type Gender uint
 
 const (
 	// Man Gender for man.
-	Man Gender = iota
+	Man Gender = 1 + iota
 	// Woman Gender for woman.
 	Woman
 )
@@ -36,7 +36,7 @@ type User struct {
 
 func init() {
 	db = mysql.NewDB()
-	_, e := DB.Exec(fmt.Sprintf("USE %s", dbName))
+	_, e := db.Exec(fmt.Sprintf("USE %s", dbName))
 	utils.CheckError(e, "user.go")
 }
 
@@ -58,7 +58,10 @@ func CreateUser(name, email, pwd string, gender Gender) (*User, error) {
 	stmt, e := db.Prepare(fmt.Sprintf("SELECT id FROM %s WHERE email=?;", table))
 	utils.CheckError(e, "user.go")
 	defer stmt.Close()
-	stmt, e := db.Prepare(fmt.Sprintf("INSERT %s SET name=?,email=?,password=?,gender=?", table))
+	if GetUser(0, email) != nil {
+		return nil, fmt.Errorf("email has registered")
+	}
+	stmt, e = db.Prepare(fmt.Sprintf("INSERT %s SET name=?,email=?,password=?,gender=?", table))
 	utils.CheckError(e, "user.go")
 	defer stmt.Close()
 	res, e := stmt.Exec(name, email, pwd, gender)
@@ -74,17 +77,41 @@ func CreateUser(name, email, pwd string, gender Gender) (*User, error) {
 	}, nil
 }
 
-// GetUser get User by id or email(one of them, id preferred), return nil if not exist.
-func GetUser(id, email string) *User {
+// GetUser get User by id or email(one of them, email preferred), return nil if not exist.
+func GetUser(id int64, email string) *User {
+	if email != "" {
+		return getUserByEmail(email)
+	}
+	return getUserByEmail(email)
+}
+
+func getUserByID(id int64) *User {
+	stmt, e := db.Prepare(fmt.Sprintf("SELECT id name email gender FROM %s WHERE id = ?;", table))
+	utils.CheckError(e, "user.go")
+	defer stmt.Close()
+	row := stmt.QueryRow(id)
+	user := &User{}
+	err := row.Scan(&user.ID, &user.Name, &user.Email, &user.Gender)
+	if err == sql.ErrNoRows {
+		return nil
+	}
+	utils.CheckError(err, "user.go")
+	return user
+}
+
+func getUserByEmail(email string) *User {
 	if !checkEmail(email) {
 		return nil
 	}
-
-}
-
-func getUserByID(id string) *User {
-	if id == nil || len(id) == 0 {
+	stmt, e := db.Prepare(fmt.Sprintf("SELECT id, name, email, gender FROM %s WHERE email = ?;", table))
+	utils.CheckError(e, "user.go")
+	defer stmt.Close()
+	row := stmt.QueryRow(email)
+	user := &User{}
+	err := row.Scan(&user.ID, &user.Name, &user.Email, &user.Gender)
+	if err == sql.ErrNoRows {
 		return nil
 	}
-	db.Prepare("SELECT ")
+	utils.CheckError(err, "user.go")
+	return user
 }

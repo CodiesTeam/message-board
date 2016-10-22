@@ -1,18 +1,14 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import Register from './login/register';
+import Login from './login/login';
+import { Router, Route, hashHistory } from 'react-router';
 
-export default class App extends React.Component<{}, {}> {
-    render() {
-        return (
-            <div>
-                <Register />
-            </div>
-        );
-    }
-}
-
-ReactDOM.render(
-    <App />,
+render((
+    <Router history={hashHistory}>
+        <Route path="/" component={Register}/>
+        <Route path="/login" component={Login}/>
+    </Router>
+),
     document.getElementById("example")
 );
